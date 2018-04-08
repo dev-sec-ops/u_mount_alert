@@ -1,8 +1,8 @@
 #!/bin/bash
 
 	###  About File Original Mounts :--> omounts
-	###  A file named omounts should be created in the directory /root/practise/omounts
-	###  Have created the omounts file in /root/practise/ directory
+	###  A file named omounts should be created in the directory ~/omounts
+	###  Have created the omounts file in ~/ directory
 	###  This File stores the mount points info :--> mount point,space used,total space
 	###  This File is Auto updated in the END of the Script
 	###  So that after sending the Mail regarding mount point Chnages(Addded or Removed)
@@ -19,7 +19,7 @@
 	###  This file is located inside /root/practise directory
 	###  Have used df command to store all the CURRENT mount points info
 
-	insert_into_mount="$(df -h | sed 1d | awk '{print $6,$3,$2}' > /root/practise/omounts.tmp )"
+	insert_into_mount="$(df -h | sed 1d | awk '{print $6,$3,$2}' > ~/omounts.tmp )"
 	echo "${insert_into_mount}"
 
 	##Realtime Data inserted in a temp file.... is done
@@ -39,7 +39,7 @@
 	###
 
 
-	###  This <(cat /root/practise/omounts | awk {print 1}) will extract the First Word of the File --> omounts
+	###  This <(cat ~/omounts | awk {print 1}) will extract the First Word of the File --> omounts
 	###  As the omounts file contains 3 Space Seperated values --> mount point,space used,total space
 	###  It will match the First Word of both the files omounts and omounts.tmp to check for changes
 
@@ -48,13 +48,13 @@
 	###  The ADDED mount point values
 	###  
 	
-	added_changes_display="$(diff -u <(cat /root/practise/omounts | awk '{print $1}') <(cat /root/practise/omounts.tmp | awk '{print $1}') | grep -e "^\+" | sed 1d | awk '{print substr($1,2)}')"
+	added_changes_display="$(diff -u <(cat ~/omounts | awk '{print $1}') <(cat ~/omounts.tmp | awk '{print $1}') | grep -e "^\+" | sed 1d | awk '{print substr($1,2)}')"
 
 	
 	###  This Variabe added_changes_display_count will only store 
 	###  The ADDED mount point COunt i.e the No of mount point added 
   
-	added_changes_display_count="$( diff -u <(cat /root/practise/omounts | awk '{print $1}') <(cat /root/practise/omounts.tmp | awk '{print $1}') | grep -e "^\+" | sed 1d | awk '{print substr($1,2)}' | wc -l)"
+	added_changes_display_count="$( diff -u <(cat ~/omounts | awk '{print $1}') <(cat ~/omounts.tmp | awk '{print $1}') | grep -e "^\+" | sed 1d | awk '{print substr($1,2)}' | wc -l)"
 
 	#if [[ added_changes_display_count -gt   ]]; then
 	#statement
@@ -86,7 +86,7 @@
 					###  That Mount point is Searched in the omounts.tmp
 					###  And the Details with respect to that mount point is Obtained
 					
-					mount_detail="$( cat /root/practise/omounts.tmp | grep ${mount_details} )"
+					mount_detail="$( cat ~/omounts.tmp | grep ${mount_details} )"
 
 					###  echo mount details at line ${a} is : ${mount_detail}
 
@@ -126,14 +126,14 @@
 		###
 
 
-		###  This <(cat /root/practise/omounts | awk '{print $1}') will extract the First Word of the File --> omounts
+		###  This <(cat ~/omounts | awk '{print $1}') will extract the First Word of the File --> omounts
 		###  As the omounts file contains 3 Space Seperated values --> mount point,space used,total space
 		###  It will match the First Word of both the files "omounts" and "omounts.tmp" to check for changes
 
 		
-deleted_changes_display="$(diff -u <(cat /root/practise/omounts | awk '{print $1}') <(cat /root/practise/omounts.tmp | awk '{print $1}') | grep -e "^\-" | sed 1d | awk '{print substr($1,2)}')"
+deleted_changes_display="$(diff -u <(cat ~/omounts | awk '{print $1}') <(cat ~/omounts.tmp | awk '{print $1}') | grep -e "^\-" | sed 1d | awk '{print substr($1,2)}')"
 
-deleted_changes_display_count="$( diff -u <(cat /root/practise/omounts | awk '{print $1}') <(cat /root/practise/omounts.tmp | awk '{print $1}') | grep -e "^\-" | sed 1d | awk '{print substr($1,2)}' | wc -l)"
+deleted_changes_display_count="$( diff -u <(cat ~/omounts | awk '{print $1}') <(cat ~/omounts.tmp | awk '{print $1}') | grep -e "^\-" | sed 1d | awk '{print substr($1,2)}' | wc -l)"
 
 ###  echo Few mount points are removed from the system. The Count is :-  ${deleted_changes_display_count}
 
@@ -158,7 +158,7 @@ d=${deleted_changes_display_count}
 			mount_details="$( echo ${deleted_changes_display} | awk '{print $'${d}'}')"
 
 
-			mount_detail="$( cat /root/practise/omounts | grep ${mount_details} )"
+			mount_detail="$( cat ~/omounts | grep ${mount_details} )"
 
 			m_p="$( echo ${mount_detail} | awk '{print $1}')"
 			used="$( echo ${mount_detail} | awk '{print $2}')"
@@ -180,9 +180,8 @@ d=${deleted_changes_display_count}
 ### Also the Space Details that are Calculated when this Script is Executed
 
 
-cat /root/practise/omounts.tmp > /root/practise/omounts
+cat ~/omounts.tmp > ~/omounts
 
  ###  echo .....................
 
 ### -----------ENDS HERE-----------------------
-
