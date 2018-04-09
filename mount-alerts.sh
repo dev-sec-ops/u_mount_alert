@@ -14,7 +14,7 @@
 			used="$( echo ${mount_detail} | awk '{print $2}')"
 			total="$( echo ${mount_detail}  | awk '{print $3}')"
 			## send mail using sendmail utility ### 
-			$( echo "Changes detected on mount point ${m_p} it is newly added mount point with current usage of ${used}B out of allocated ${total}B" | sendmail -t $(whoami) -s "Alerts RE: Mount Points" )		
+			$( echo "Changes detected on mount point ${m_p} it is newly added mount point with current usage of ${used}B out of allocated ${total}B" | sendmail  $(whoami) "Alerts RE: Mount Points" )		
 			## send mail using mailx utility ### 
 			$( echo "Changes detected on mount point ${m_p} it is newly added mount point with current usage of ${used}B out of allocated ${total}B" | mail $(whoami) -s "Alerts RE: Mount Points" )					
 			a=$(( a -1  ))
